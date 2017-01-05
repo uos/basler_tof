@@ -1,0 +1,32 @@
+<launch>
+  <!-- "camera" should uniquely identify the device. All topics are pushed down
+       into the "camera" namespace, and it is prepended to tf frame ids. -->
+  <arg name="camera"     default="camera" />
+  <arg name="frame_id"   default="$(arg camera)_optical_frame" />
+  <arg name="pi/2"       value="1.5707963267948966" />
+  <arg name="publish_tf" default="true" />
+
+  <arg name="basler_tof_path" default="/opt/BaslerToF" />
+
+  <!-- device_id can have the following formats:
+        "21781335" : Use device with given serial number
+        "#1"       : Use first device found
+  -->
+  <arg name="device_id" default="#1" />
+
+  <!-- URL specifying the location of calibration data for the camera -->
+  <arg name="camera_info_url" default="" />
+
+  <group ns="$(arg camera)">
+    <node if="$(arg publish_tf)" pkg="tf" type="static_transform_publisher" name="$(arg camera)_base_link"
+      args="0 0 0 -$(arg pi/2) 0 -$(arg pi/2) $(arg camera)_link $(arg frame_id) 100" />
+
+    <node pkg="basler_tof" type="basler_tof_node" name="$(arg camera)_node" output="screen">
+      <!-- This is necessary to find ProducerTOF.cti: -->
+      <env name="LD_LIBRARY_PATH" value="$(arg basler_tof_path)/bin:$(arg basler_tof_path)/bin/GigE:$(arg basler_tof_path)/lib64:$(arg basler_tof_path)/lib64/gentlproducer/gtl:$(env LD_LIBRARY_PATH)" />
+      <param name="frame_id"  value="$(arg frame_id)"  />
+      <param name="device_id" type="str" value="$(arg device_id)" />
+      <param name="camera_info_url" value="$(arg camera_info_url)" />
+    </node>
+  </group>
+</launch>

@@ -1,0 +1,51 @@
+<launch>
+  <!-- "camera" should uniquely identify the device. All topics are pushed down
+       into the "camera" namespace, and it is prepended to tf frame ids. -->
+  <arg name="camera"     default="camera" />
+  <arg name="points_xyz" default="true" />
+  <arg name="rectify_depth" default="true" />
+
+  <group ns="$(arg camera)">
+    <!-- Load processing nodes for the intensity + confidence images -->
+    <node ns="intensity"  pkg="image_proc" type="image_proc" name="image_proc" output="screen" />
+    <node ns="confidence" pkg="image_proc" type="image_proc" name="image_proc" output="screen" />
+
+    <!-- Load processing nodelets for the depth camera -->
+    <group ns="depth">
+      <node pkg="nodelet" type="nodelet" name="manager" args="manager" output="screen">
+         <param name="num_worker_threads" value="4" />
+      </node>
+
+      <!-- Rectified raw image (internal use) -->
+      <node if="$(arg rectify_depth)" pkg="nodelet" type="nodelet" name="depth_rectify_depth"
+            args="load image_proc/rectify manager --no-bond">
+        <remap from="image_mono"  to="image_raw" />
+        <remap from="image_rect"  to="image_rect_raw" />
+        <!-- Use nearest neighbor (0) interpolation so we don't streak across
+             depth boundaries -->
+        <param name="interpolation" value="0" />
+      </node>
+
+      <!-- Rectified depth image -->
+      <node  if="$(arg rectify_depth)" pkg="nodelet" type="nodelet" name="depth_metric_rect"
+            args="load depth_image_proc/convert_metric manager --no-bond">
+        <remap from="image_raw" to="image_rect_raw" />
+        <remap from="image"     to="image_rect" />
+      </node>
+
+      <!-- Unrectified depth image -->
+      <node pkg="nodelet" type="nodelet" name="depth_metric"
+            args="load depth_image_proc/convert_metric manager --no-bond">
+        <remap from="image_raw" to="image_raw" />
+        <remap from="image"     to="image" />
+      </node>
+
+      <!-- XYZ point cloud (optional) -->
+      <node if="$(arg points_xyz)" pkg="nodelet" type="nodelet" name="depth_points"
+            args="load depth_image_proc/point_cloud_xyz manager --no-bond">
+        <remap from="image_rect" to="image_rect_raw"/>  <!-- Use raw image for efficiency -->
+        <remap from="points"     to="points" />
+      </node>
+    </group>
+  </group>
+</launch>

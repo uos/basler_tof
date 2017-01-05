@@ -1,0 +1,41 @@
+sudo: required
+dist: trusty
+# Force travis to use its minimal image with default Python settings
+language: generic
+env:
+  global:
+    - CATKIN_WS=~/catkin_ws
+    - CATKIN_WS_SRC=${CATKIN_WS}/src
+  matrix:
+    - CI_ROS_DISTRO="indigo"
+    - CI_ROS_DISTRO="jade"
+install:
+  # Download + unpack basler-tof-driver library
+  - cd $(mktemp -d)
+  - wget http://s.baslerweb.com/media/documents/basler-tof-driver-1.1.0-x86_64.tar.gz
+  - tar xf basler-tof-driver-1.1.0-x86_64.tar.gz
+  - sudo mv BaslerToF-1.1.0/BaslerToF /opt/
+  - cd $TRAVIS_BUILD_DIR
+  # Install ROS
+  - sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu trusty main" > /etc/apt/sources.list.d/ros-latest.list'
+  - wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq -y python-rosdep python-catkin-tools
+  - sudo rosdep init
+  - rosdep update
+  # Use rosdep to install all dependencies (including ROS itself)
+  - rosdep install --from-paths ./ -i -y --rosdistro $CI_ROS_DISTRO
+script:
+  - source /opt/ros/$CI_ROS_DISTRO/setup.bash
+  - mkdir -p $CATKIN_WS_SRC
+  - ln -s $TRAVIS_BUILD_DIR $CATKIN_WS_SRC
+  - cd $CATKIN_WS
+  - catkin init
+  # Enable install space
+  - catkin config --install
+  # Build [and Install] packages
+  - catkin build --limit-status-rate 0.1 --no-notify -DCMAKE_BUILD_TYPE=Release
+  # Build tests
+  - catkin build --limit-status-rate 0.1 --no-notify --make-args tests
+  # Run tests
+  - catkin run_tests
