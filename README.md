@@ -1,8 +1,6 @@
 Basler ToF camera ROS driver
 ============================
 
-[![Build Status](https://travis-ci.org/uos/basler_tof.svg?branch=indigo)](https://travis-ci.org/uos/basler_tof)
-
 This is a ROS driver for the Basler ToF ES (Engineering Sample) 3D camera:
 
 ![Basler ToF ES](doc/images/basler_tof_es.jpg)
@@ -15,6 +13,8 @@ Installation
   [baslerweb.com](http://www.baslerweb.com/de/produkte/kameras/3d-kameras/time-of-flight-kamera/tof640-20gm_850nm#software))
   and unpack it.
 * Move the directory `BaslerToF` from that archive to `/opt/BaslerToF`.
+* Do **not** put this directory on your `LD_LIBRARY_PATH`; it contains custom
+  versions of Qt and other libraries that interfere with the system libraries.
 * Clone this repo into your Catkin workspace and install as usual. If unsure,
   refer to the commands in the [.travis.yml](.travis.yml) file.
 
@@ -202,3 +202,21 @@ of the camera housing:
 
 However, the camera_optical_frame is defined by the camera's lens, which could
 result in an offset in the *z* direction of several millimeters.
+
+
+Build Status
+------------
+
+### Build Job Status (Travis)
+
+| | Indigo | Jade | Kinetic |
+| --- | --- | --- | --- |
+| basler_tof | [![Build Status](https://travis-ci.org/uos/basler_tof.svg?branch=indigo)](https://travis-ci.org/uos/basler_tof) | [![Build Status](https://travis-ci.org/uos/basler_tof.svg?branch=jade)](https://travis-ci.org/uos/basler_tof) | N/A |
+
+*Note:* There is a Kinetic branch, but Travis doesn't provide Xenial hosts that are required for building on Kinetic.
+
+### Doc Job Status (ROS build farm)
+
+| | Indigo | Jade | Kinetic |
+| --- | --- | --- | --- |
+| doc | [![Build Status](http://build.ros.org/buildStatus/icon?job=Idoc__basler_tof__ubuntu_trusty_amd64)](http://build.ros.org/job/Idoc__basler_tof__ubuntu_trusty_amd64/) | [![Build Status](http://build.ros.org/buildStatus/icon?job=Jdoc__basler_tof__ubuntu_trusty_amd64)](http://build.ros.org/job/Jdoc__basler_tof__ubuntu_trusty_amd64/) | [![Build Status](http://build.ros.org/buildStatus/icon?job=Kdoc__basler_tof__ubuntu_xenial_amd64)](http://build.ros.org/job/Kdoc__basler_tof__ubuntu_xenial_amd64/) |
