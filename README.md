@@ -4,6 +4,7 @@ Basler ToF camera ROS driver
 This is a ROS driver for the Basler ToF ES (Engineering Sample) 3D camera:
 
 ![Basler ToF ES](doc/images/basler_tof_es.jpg)
+<img src="doc/images/basler_tof_side_intensity.png" width="50%">
 
 
 Installation
@@ -11,7 +12,8 @@ Installation
 
 * Get the file `basler-tof-driver-1.1.0-x86_64.tar.gz` (available from
   [baslerweb.com](http://www.baslerweb.com/de/produkte/kameras/3d-kameras/time-of-flight-kamera/tof640-20gm_850nm#software))
-  and unpack it.
+  and unpack it. (This driver has been tested with versions 1.1.0 and 1.0.6
+  of `basler-tof-driver`, but should work with any >= 1.0.6 .
 * Move the directory `BaslerToF` from that archive to `/opt/BaslerToF`.
 * Do **not** put this directory on your `LD_LIBRARY_PATH`; it contains custom
   versions of Qt and other libraries that interfere with the system libraries.
@@ -202,6 +204,13 @@ of the camera housing:
 
 However, the camera_optical_frame is defined by the camera's lens, which could
 result in an offset in the *z* direction of several millimeters.
+
+
+Sensor Sample
+-------------
+
+A sample output of the sensor can be found in
+[doc/sensor_samples/basler_tof.bag](https://github.com/uos/basler_tof/blob/indigo/doc/sensor_samples/basler_tof.bag).
 
 
 Build Status
