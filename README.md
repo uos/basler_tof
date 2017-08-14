@@ -12,7 +12,7 @@ Installation
 
 * Get the file `basler-tof-driver-1.1.0-x86_64.tar.gz` (available from
   [baslerweb.com](http://www.baslerweb.com/de/produkte/kameras/3d-kameras/time-of-flight-kamera/tof640-20gm_850nm#software))
-  and unpack it. (This driver has been tested with versions 1.0.6, 1.1.0 and 1.2.1
+  and unpack it. (This driver has been tested with versions 1.0.6, 1.1.0, 1.2.1 and 1.3.1
   of `basler-tof-driver`, but should work with any version >= 1.0.6 . Version
   1.2.1 or later is recommended due to the improvements in the postprocessing
   filters.

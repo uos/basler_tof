@@ -12,9 +12,9 @@ env:
 install:
   # Download + unpack basler-tof-driver library
   - cd $(mktemp -d)
-  - wget https://www.baslerweb.com/fp-1490791662/media/downloads/software/tof_software/basler-tof-driver-1.2.1-x86_64.tar.gz
-  - tar xf basler-tof-driver-1.2.1-x86_64.tar.gz
-  - sudo mv BaslerToF-1.2.1/BaslerToF /opt/
+  - wget https://www.baslerweb.com/fp-1501077817/media/downloads/software/tof_software/basler-tof-driver-1.3.1-x86_64.tar.gz
+  - tar xf basler-tof-driver-1.3.1-x86_64.tar.gz
+  - sudo mv BaslerToF-1.3.1/BaslerToF /opt/
   - cd $TRAVIS_BUILD_DIR
   # Install ROS
   - sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu trusty main" > /etc/apt/sources.list.d/ros-latest.list'
