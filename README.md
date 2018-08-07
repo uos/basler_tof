@@ -10,7 +10,7 @@ This is a ROS driver for the Basler ToF ES (Engineering Sample) 3D camera:
 Installation
 ------------
 
-* Get the file `basler-tof-driver-1.3.2-x86_64.tar.gz` (available from
+* Get the file `basler-tof-driver-1.4.1.1450-x86_64.tar.gz` (available from
   [baslerweb.com](http://www.baslerweb.com/de/produkte/kameras/3d-kameras/time-of-flight-kamera/tof640-20gm_850nm#software))
   and unpack it. (This driver has been tested with versions 1.0.6, 1.1.0, 1.2.1, 1.3.1 and 1.3.2
   of `basler-tof-driver`, but should work with any version >= 1.0.6 . Version
