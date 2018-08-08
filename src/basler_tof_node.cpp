@@ -66,6 +66,8 @@ std::string device_id_;
 std::string camera_name_;
 CToFCamera camera_;
 
+bool subscriber_connected_;
+
 boost::shared_ptr<camera_info_manager::CameraInfoManager> intensity_info_manager_;
 boost::shared_ptr<camera_info_manager::CameraInfoManager> confidence_info_manager_;
 boost::shared_ptr<camera_info_manager::CameraInfoManager> depth_info_manager_;
@@ -256,6 +258,33 @@ void update_config(basler_tof::BaslerToFConfig &new_config, uint32_t level)
   CIntegerPtr(camera_.GetParameter("OutlierTolerance"))->SetValue(new_config.outlier_tolerance);
 }
 
+void subscribeCallback()
+{
+  if (cloud_pub_.getNumSubscribers() > 0 ||
+      intensity_pub_.getNumSubscribers() > 0 ||
+      confidence_pub_.getNumSubscribers() > 0 ||
+      depth_pub_.getNumSubscribers() > 0 ||
+      intensity_ci_pub_.getNumSubscribers() > 0 ||
+      confidence_ci_pub_.getNumSubscribers() > 0 ||
+      depth_ci_pub_.getNumSubscribers() > 0)
+  {
+    if (!subscriber_connected_)
+    {
+      ROS_INFO("Starting stream");
+      subscriber_connected_ = true;
+    }
+  }
+  else
+  {
+    if (subscriber_connected_)
+    {
+      ROS_INFO("Stopping stream");
+      camera_.StopGrab();
+      subscriber_connected_ = false;
+    }
+  }
+}
+
 int main(int argc, char* argv[])
 {
   ros::init(argc, argv, "basler_tof_node");
@@ -272,13 +301,15 @@ int main(int argc, char* argv[])
     device_id_ = "#1";
   }
 
-  cloud_pub_ = n.advertise<pcl::PointCloud<pcl::PointXYZI> > ("points", 10);
-  intensity_pub_ = n.advertise<sensor_msgs::Image>("intensity/image_raw", 10);
-  confidence_pub_ = n.advertise<sensor_msgs::Image>("confidence/image_raw", 10);
-  depth_pub_ = n.advertise<sensor_msgs::Image>("depth/image_raw", 10);
-  intensity_ci_pub_ = n.advertise<sensor_msgs::CameraInfo>("intensity/camera_info", 10);
-  confidence_ci_pub_ = n.advertise<sensor_msgs::CameraInfo>("confidence/camera_info", 10);
-  depth_ci_pub_ = n.advertise<sensor_msgs::CameraInfo>("depth/camera_info", 10);
+  ros::SubscriberStatusCallback rsscb = boost::bind(&subscribeCallback);
+
+  cloud_pub_ = n.advertise<pcl::PointCloud<pcl::PointXYZI> > ("points", 10, rsscb, rsscb);
+  intensity_pub_ = n.advertise<sensor_msgs::Image>("intensity/image_raw", 10, rsscb, rsscb);
+  confidence_pub_ = n.advertise<sensor_msgs::Image>("confidence/image_raw", 10, rsscb, rsscb);
+  depth_pub_ = n.advertise<sensor_msgs::Image>("depth/image_raw", 10, rsscb, rsscb);
+  intensity_ci_pub_ = n.advertise<sensor_msgs::CameraInfo>("intensity/camera_info", 10, rsscb, rsscb);
+  confidence_ci_pub_ = n.advertise<sensor_msgs::CameraInfo>("confidence/camera_info", 10, rsscb, rsscb);
+  depth_ci_pub_ = n.advertise<sensor_msgs::CameraInfo>("depth/camera_info", 10, rsscb, rsscb);
 
   intensity_info_manager_ = boost::make_shared<camera_info_manager::CameraInfoManager>(intensity_nh);
   confidence_info_manager_ = boost::make_shared<camera_info_manager::CameraInfoManager>(confidence_nh);
@@ -383,22 +414,27 @@ int main(int argc, char* argv[])
     f = boost::bind(&update_config, _1, _2);
     dynamic_reconfigure_server.setCallback(f);
 
+     //check once if subscribers are already connected
+    subscribeCallback();
     while (ros::ok())
     {
       ros::spinOnce();
 
-      // Acquire one single image
-      BufferParts parts;
-      GrabResultPtr ptrGrabResult = camera_.GrabSingleImage(1000, &parts);
+      if (subscriber_connected_)
+      {
+        // Acquire one single image
+        BufferParts parts;
+        GrabResultPtr ptrGrabResult = camera_.GrabSingleImage(1000, &parts);
 
-      // Save 3D data
-      if (ptrGrabResult->status == GrabResult::Ok)
-      {
-        publish(parts, ros::Time::now());
-      }
-      else
-      {
-        ROS_ERROR("Failed to grab an image.");
+        // Save 3D data
+        if (ptrGrabResult->status == GrabResult::Ok)
+        {
+          publish(parts, ros::Time::now());
+        }
+        else
+        {
+            ROS_ERROR("Failed to grab an image.");
+        }
       }
     }
 
