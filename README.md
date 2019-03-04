@@ -111,7 +111,7 @@ launch file, for example `intensity/image_rect`:
 
 #### Dynamically Reconfigurable Parameters
 
-See the [dynamic_reconfigure](/dynamic_reconfigure) package for details on
+See the [dynamic_reconfigure](http://wiki.ros.org/dynamic_reconfigure) package for details on
 dynamically reconfigurable parameters.
 
 `~frame_rate` (`int`, default: 15)
