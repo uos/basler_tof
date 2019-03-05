@@ -8,7 +8,6 @@ env:
     - CATKIN_WS_SRC=${CATKIN_WS}/src
   matrix:
     - CI_ROS_DISTRO="indigo"
-    - CI_ROS_DISTRO="jade"
 install:
   # Download + unpack basler-tof-driver library
   - cd $(mktemp -d)
