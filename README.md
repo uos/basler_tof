@@ -223,14 +223,10 @@ Build Status
 
 ### Build Job Status (Travis)
 
-| | Indigo | Jade | Kinetic |
-| --- | --- | --- | --- |
-| basler_tof | [![Build Status](https://travis-ci.org/uos/basler_tof.svg?branch=indigo)](https://travis-ci.org/uos/basler_tof) | [![Build Status](https://travis-ci.org/uos/basler_tof.svg?branch=jade)](https://travis-ci.org/uos/basler_tof) | N/A |
-
-*Note:* There is a Kinetic branch, but Travis doesn't provide Xenial hosts that are required for building on Kinetic.
+[![Build Status](https://travis-ci.org/uos/basler_tof.svg)](https://travis-ci.org/uos/basler_tof)
 
 ### Doc Job Status (ROS build farm)
 
-| | Indigo | Jade | Kinetic |
-| --- | --- | --- | --- |
-| doc | [![Build Status](http://build.ros.org/buildStatus/icon?job=Idoc__basler_tof__ubuntu_trusty_amd64)](http://build.ros.org/job/Idoc__basler_tof__ubuntu_trusty_amd64/) | [![Build Status](http://build.ros.org/buildStatus/icon?job=Jdoc__basler_tof__ubuntu_trusty_amd64)](http://build.ros.org/job/Jdoc__basler_tof__ubuntu_trusty_amd64/) | [![Build Status](http://build.ros.org/buildStatus/icon?job=Kdoc__basler_tof__ubuntu_xenial_amd64)](http://build.ros.org/job/Kdoc__basler_tof__ubuntu_xenial_amd64/) |
+|     | Indigo | Kinetic | Lunar | Melodic |
+|-----|--------|---------|-------|---------|
+| doc | [![Build Status](http://build.ros.org/buildStatus/icon?job=Idoc__basler_tof__ubuntu_trusty_amd64)](http://build.ros.org/job/Idoc__basler_tof__ubuntu_trusty_amd64/) | [![Build Status](http://build.ros.org/buildStatus/icon?job=Kdoc__basler_tof__ubuntu_xenial_amd64)](http://build.ros.org/job/Kdoc__basler_tof__ubuntu_xenial_amd64/) | [![Build Status](http://build.ros.org/buildStatus/icon?job=Ldoc__basler_tof__ubuntu_xenial_amd64)](http://build.ros.org/job/Ldoc__basler_tof__ubuntu_xenial_amd64) | [![Build Status](http://build.ros.org/buildStatus/icon?job=Mdoc__basler_tof__ubuntu_bionic_amd64)](http://build.ros.org/job/Mdoc__basler_tof__ubuntu_bionic_amd64) |
