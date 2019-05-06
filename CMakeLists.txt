@@ -37,7 +37,6 @@ catkin_package(
 ###########
 
 include_directories(
-  include
   ${catkin_INCLUDE_DIRS}
   ${GENTL_INCLUDE_DIRS}
 )
