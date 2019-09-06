@@ -7,8 +7,8 @@ This is a ROS driver for the Basler ToF ES (Engineering Sample) 3D camera:
 <img src="doc/images/basler_tof_side_intensity.png" width="50%">
 
 
-Installation
-------------
+Linux Installation
+------------------
 
 * Get the file `basler-tof-driver-1.4.1.1450-x86_64.tar.gz` (available from
   [baslerweb.com](http://www.baslerweb.com/de/produkte/kameras/3d-kameras/time-of-flight-kamera/tof640-20gm_850nm#software))
@@ -25,12 +25,28 @@ Installation
 * Clone this repo into your Catkin workspace and install as usual. If unsure,
   refer to the commands in the [.travis.yml](.travis.yml) file.
 
+Windows Installation
+--------------------
+
+* Install the Basler ToF Windows driver from [baslerweb.com](https://www.baslerweb.com/en/sales-support/downloads/software-downloads/tof-software-windows/)
+* Create a folder to be your catkin workspace
+* Create a `src` subdirectory, and clone this repository to `basler_tof` under that `src` directory
+* Invoke `catkin_make` from your catkin workspace, and then source the new package into ROS
+   ```batch
+   c:\ws>catkin_make
+   c:\ws>.\devel\setup.bat
+   ```
 
 Running
 -------
-
+Linux:
 ```bash
 roslaunch basler_tof basler_tof.launch
+```
+
+Windows:
+```batch
+roslaunch basler_tof basler_tof_win.launch
 ```
 
 
