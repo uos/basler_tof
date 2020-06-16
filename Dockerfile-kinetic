@@ -1,7 +1,8 @@
 FROM ros:kinetic-ros-core
 
-RUN apt-get update && apt-get install -y \
-    build-essential python-catkin-tools curl
+RUN apt-get update \
+    && apt-get install -y build-essential python-catkin-tools python-rosdep cmake curl \
+    && rm -rf /var/lib/apt/lists/{apt,dpkg,cache,log} /tmp/* /var/tmp/*
 
 # Download + unpack basler-tof-driver library
 RUN curl -SL https://www.baslerweb.com/fp-1528894787/media/downloads/software/tof_software/basler-tof-driver-1.4.1.1450-x86_64.tar.gz \
@@ -12,7 +13,7 @@ COPY . /ws/src/basler_tof
 WORKDIR /ws
 
 # Use rosdep to install all dependencies (including ROS itself)
-RUN rosdep install --from-paths src -i -y --rosdistro kinetic
+RUN rosdep init && rosdep update && rosdep install --from-paths src -i -y --rosdistro kinetic
 
 RUN /bin/bash -c "source /opt/ros/kinetic/setup.bash && \
     catkin init && \
