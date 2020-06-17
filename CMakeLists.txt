@@ -2,7 +2,17 @@ cmake_minimum_required(VERSION 3.5.1)
 cmake_policy(SET CMP0048 NEW)
 project(basler_tof)
 
-add_compile_options(-std=c++11)
+# check c++14 / c++11
+include(CheckCXXCompilerFlag)
+CHECK_CXX_COMPILER_FLAG("-std=c++14" COMPILER_SUPPORTS_CXX14)
+CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
+if(COMPILER_SUPPORTS_CXX14)
+    add_compile_options(-std=c++14)
+elseif(COMPILER_SUPPORTS_CXX11)
+    add_compile_options(-std=c++11)
+else()
+  message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++14 or C++11 support. Please use a different C++ compiler.")
+endif()
 
 find_package(catkin REQUIRED COMPONENTS
   camera_info_manager
