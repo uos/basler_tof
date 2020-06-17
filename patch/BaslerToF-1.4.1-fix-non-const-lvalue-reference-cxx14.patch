@@ -1,0 +1,12 @@
+diff -urp BaslerToF-1.4.1.orig/opt/BaslerToF/include/ConsumerImplHelper/GrabResources.h BaslerToF-1.4.1/opt/BaslerToF/include/ConsumerImplHelper/GrabResources.h
+--- BaslerToF-1.4.1.orig/opt/BaslerToF/include/ConsumerImplHelper/GrabResources.h	2020-06-17 15:12:09.995102183 +0000
++++ BaslerToF-1.4.1/opt/BaslerToF/include/ConsumerImplHelper/GrabResources.h	2020-06-17 15:14:23.355016021 +0000
+@@ -29,7 +29,7 @@ namespace GenTLConsumerImplHelper
+                 }
+ 
+                 void*& getBuffer() { return m_pBuffer; }
+-                const void*& getBuffer() const { return m_pBuffer; }
++                const void* getBuffer() const { return m_pBuffer; }
+ 
+                 GenTL::BUFFER_HANDLE& getHandle() { return m_handle;  }
+                 const GenTL::BUFFER_HANDLE& getHandle() const { return m_handle; }
