@@ -376,6 +376,12 @@ int main(int argc, char* argv[])
       }
     }
 
+	int device_channel;
+	pn.getParam("device_channel", device_channel);
+
+	CIntegerPtr(camera_.GetDeviceNodeMap()->GetNode("DeviceChannel"))->SetValue(int64_t(device_channel));
+
+
     ROS_INFO_STREAM("[" << camera_name_ << "] opened.");
 
     ROS_INFO_STREAM("DeviceVendorName:      " << CStringPtr(camera_.GetParameter("DeviceVendorName"))->GetValue());
@@ -384,6 +390,7 @@ int main(int argc, char* argv[])
     ROS_INFO_STREAM("DeviceFirmwareVersion: " << CStringPtr(camera_.GetParameter("DeviceFirmwareVersion"))->GetValue());
     ROS_INFO_STREAM("DeviceDriverVersion:   " << CStringPtr(camera_.GetParameter("DeviceDriverVersion"))->GetValue());
     ROS_INFO_STREAM("DeviceSerialNumber:    " << CStringPtr(camera_.GetParameter("DeviceSerialNumber"))->GetValue());
+    ROS_INFO_STREAM("DeviceChannel:         " << CIntegerPtr(camera_.GetDeviceNodeMap()->GetNode("DeviceChannel"))->GetValue());
 
     ROS_INFO_STREAM("DeviceCalibVersion:    " << CIntegerPtr(camera_.GetParameter("DeviceCalibVersion"))->GetValue());
     ROS_INFO_STREAM("DeviceCalibState:      " << CEnumerationPtr(camera_.GetParameter("DeviceCalibState"))->ToString());
@@ -451,4 +458,3 @@ int main(int argc, char* argv[])
 
   return exitCode;
 }
-
