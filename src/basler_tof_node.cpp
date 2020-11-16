@@ -376,11 +376,10 @@ int main(int argc, char* argv[])
       }
     }
 
-	int device_channel;
-	pn.getParam("device_channel", device_channel);
+    int device_channel;
+    pn.getParam("device_channel", device_channel);
 
-	CIntegerPtr(camera_.GetDeviceNodeMap()->GetNode("DeviceChannel"))->SetValue(int64_t(device_channel));
-
+    CIntegerPtr(camera_.GetDeviceNodeMap()->GetNode("DeviceChannel"))->SetValue(int64_t(device_channel));
 
     ROS_INFO_STREAM("[" << camera_name_ << "] opened.");
 
@@ -458,3 +457,4 @@ int main(int argc, char* argv[])
 
   return exitCode;
 }
+

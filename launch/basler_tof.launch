@@ -14,7 +14,6 @@
   <arg name="device_id" default="#1" />
   <arg name="device_channel" default="0" />
 
-
   <!-- URL specifying the location of calibration data for the camera -->
   <arg name="camera_info_url" default="package://basler_tof/camera_info/TOF_ES_21781335.yaml" />
 
@@ -28,7 +27,7 @@
     <arg name="publish_tf"      default="$(arg publish_tf)" />
     <arg name="basler_tof_path" default="$(arg basler_tof_path)" />
     <arg name="camera_info_url" default="$(arg camera_info_url)" />
-	<arg name="device_channel"  default="$(arg device_channel)" />
+    <arg name="device_channel"  default="$(arg device_channel)" />
   </include>
 
   <include file="$(find basler_tof)/launch/includes/processing.launch.xml">

@@ -29,7 +29,7 @@
       <param name="frame_id"  value="$(arg frame_id)"  />
       <param name="device_id" type="str" value="$(arg device_id)" />
       <param name="camera_info_url" value="$(arg camera_info_url)" />
-	  <param name="device_channel" value="$(arg device_channel)" />
+      <param name="device_channel" value="$(arg device_channel)" />
     </node>
   </group>
 </launch>
